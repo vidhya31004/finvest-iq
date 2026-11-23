@@ -6,6 +6,20 @@ FINVEST IQ is a financial analytics platform designed to analyse portfolio perfo
 
 The platform combines financial analytics, data engineering, and interactive visualisation to transform historical market data into meaningful portfolio insights.
 
+## Dashboard Preview
+
+### Risk Dashboard
+
+![FINVEST IQ Risk Dashboard](docs/screenshots/risk-dashboard.png)
+
+### Portfolio Performance
+
+![Portfolio Performance](docs/screenshots/portfolio-performance.png)
+
+### Stock Volatility Analysis
+
+![Stock Volatility Analysis](docs/screenshots/stock-volatility.png)
+
 ### Key Features
 
 - **Portfolio Performance Analysis** — Track historical portfolio value and returns.
