@@ -1,0 +1,68 @@
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Node
+node_modules/
+dist/
+.vite/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# Local database files and backups
+*.db
+*.sqlite
+*.sqlite3
+*.dump
+*.backup
+
+# Editor
+.vscode/
+.idea/
+
+# Frontend dependencies and build output
+**/node_modules/
+**/dist/
+
+# Local environment files
+**/.env
+**/.env.*
+!**/.env.example
+
+# Python environments and caches
+**/.venv/
+**/venv/
+**/__pycache__/
+**/*.py[cod]
+
+# Local databases and backups
+*.db
+*.sqlite
+*.sqlite3
+*.dump
+*.backup
+
+# macOS
+.DS_Store
+
+# Private credentials and certificates
+*.pem
+*.key
+*.p12
+*.pfx
+credentials*
+secrets*
+# Old Yahoo Finance downloader (excluded pending review)
+backend/app/ingestion/fetch_prices.py
