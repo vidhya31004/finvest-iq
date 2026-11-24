@@ -11,7 +11,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[3]
 
 FX_FILE = PROJECT_ROOT / "data" / "raw" / "fx" / "USD_INR_ECB.csv"
 
-SOURCE_ID = 5
+SOURCE_NAME = "Frankfurter FX"
 
 EXPECTED_BASE = "USD"
 EXPECTED_QUOTE = "INR"
@@ -73,38 +73,46 @@ def validate_fx_data(data):
     return data
 
 
+
 def import_fx_data(data):
-
-    records = []
-
-    for _, row in data.iterrows():
-
-        records.append({
-            "base_currency": EXPECTED_BASE,
-            "quote_currency": EXPECTED_QUOTE,
-            "rate_date": row["date"].date(),
-            "exchange_rate": float(row["rate"]),
-            "source_id": SOURCE_ID
-        })
 
     with engine.begin() as connection:
 
-        source = connection.execute(
+        source_id = connection.execute(
             text("""
                 SELECT source_id
                 FROM data_sources
-                WHERE source_id = :source_id
+                WHERE source_name = :source_name
                   AND source_type = 'FX'
             """),
-            {"source_id": SOURCE_ID}
-        ).fetchone()
+            {"source_name": SOURCE_NAME}
+        ).scalar_one_or_none()
 
-        if source is None:
-            raise ValueError(
-                f"FX data source {SOURCE_ID} not found."
-            )
+        if source_id is None:
+            source_id = connection.execute(
+                text("""
+                    INSERT INTO data_sources (
+                        source_name,
+                        source_type
+                    )
+                    VALUES (:source_name, 'FX')
+                    RETURNING source_id
+                """),
+                {"source_name": SOURCE_NAME}
+            ).scalar_one()
 
-        result = connection.execute(
+        records = []
+
+        for _, row in data.iterrows():
+            records.append({
+                "base_currency": EXPECTED_BASE,
+                "quote_currency": EXPECTED_QUOTE,
+                "rate_date": row["date"].date(),
+                "exchange_rate": float(row["rate"]),
+                "source_id": source_id
+            })
+
+        connection.execute(
             text("""
                 INSERT INTO fx_rates (
                     base_currency,

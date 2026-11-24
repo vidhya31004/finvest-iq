@@ -12,7 +12,8 @@ INSERT INTO data_sources
 (source_name, source_type)
 VALUES
 ('Yahoo Finance', 'MARKET_DATA'),
-('Manual Entry', 'MANUAL')
+('Manual Entry', 'MANUAL'),
+('Frankfurter FX', 'FX')
 ON CONFLICT (source_name) DO NOTHING;
 
 -- Insert Indian stocks
